@@ -1,0 +1,72 @@
+[
+    {
+        "id": "k8s-app-manifest",
+        "category": "k8s",
+        "searchTags": "kubernetes app deployment server manifest generator configurations deployment configurations ingress config",
+        "badge": "☸️ App Server",
+        "badgeStyle": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+        "duration": "⏱️ 3-Min Setup",
+        "title": "App Server Setup Generator",
+        "desc": "An automated web configuration system. Outputs pre-engineered Kubernetes cluster templates.",
+        "friendlyMetric": "Easy to Configure",
+        "metricIcon": "fa-regular fa-lightbulb",
+        "metricStyle": "text-brand-primary",
+        "actionUrl": "https://your-actual-tool-link.com"
+    },
+    {
+        "id": "azure-vnet-builder",
+        "category": "cloud",
+        "searchTags": "azure secure virtual network setup builder module modules cloud environment infra networks",
+        "badge": "☁️ Cloud Network",
+        "badgeStyle": "bg-blue-500/10 text-blue-400 border-blue-500/20",
+        "duration": "🔋 Auto-Pilot",
+        "title": "Azure Private Network Creator",
+        "desc": "A structural infrastructure template that establishes private connection corridors inside Azure.",
+        "friendlyMetric": "Cyber Safe",
+        "metricIcon": "fa-solid fa-shield-halved",
+        "metricStyle": "text-brand-accent",
+        "actionUrl": "https://your-actual-tool-link.com"
+    },
+    {
+        "id": "jenkins-app-delivery",
+        "category": "cicd",
+        "searchTags": "continuous delivery build pipeline automated security logic checks test deploy jenkins github integration",
+        "badge": "🔄 Code Pipeline",
+        "badgeStyle": "bg-violet-500/10 text-violet-400 border-violet-500/20",
+        "duration": "🏎️ Real-Time",
+        "title": "Auto-Tester & Ship Machine",
+        "desc": "Automation recipe module for Jenkins. Scans for errors instantly whenever new code is pushed.",
+        "friendlyMetric": "Multi-Checks OK",
+        "metricIcon": "fa-solid fa-circle-check",
+        "metricStyle": "text-amber-400",
+        "actionUrl": "https://your-actual-tool-link.com"
+    },
+    {
+        "id": "server-monitor",
+        "category": "automations",
+        "searchTags": "loki logs analytics server error monitoring setup diagnostic tracking alerts metrics log data monitor",
+        "badge": "⚙️ System Logs",
+        "badgeStyle": "bg-pink-500/10 text-pink-400 border-pink-500/20",
+        "duration": "📊 Visual Dashboard",
+        "title": "App Diagnostic Tracker",
+        "desc": "Observability engine that monitors memory and flags suspicious crash loops in microservices.",
+        "friendlyMetric": "Grafana Ready",
+        "metricIcon": "fa-solid fa-chart-pie",
+        "metricStyle": "text-cyan-400",
+        "actionUrl": "https://your-actual-tool-link.com"
+    },
+    {
+        "id": "space-cleaner",
+        "category": "automations",
+        "searchTags": "disk garbage storage container space cleaner cache optimization prune container utility cleaning script",
+        "badge": "🧹 Disk Utility",
+        "badgeStyle": "bg-amber-500/10 text-amber-400 border-amber-500/20",
+        "duration": "💾 Saves Storage",
+        "title": "Server Garbage Cleaner",
+        "desc": "Clears residual container blocks and virtual cache assets automatically to prevent lock-ups.",
+        "friendlyMetric": "Fast Utility",
+        "metricIcon": "fa-solid fa-bolt",
+        "metricStyle": "text-emerald-400",
+        "actionUrl": "https://your-actual-tool-link.com"
+    }
+]
