@@ -101,18 +101,32 @@ function clearSearchFilters() {
 }
 
 const text1 = "Skip the search.";
-const text2 = "Premium Modern Tools For Everyone.";
+const text2 = "premium modern tools for everyone !!";
 const line1 = document.getElementById("type-line-1");
 const line2 = document.getElementById("type-line-2");
+
 let i = 0, j = 0;
+
+// 🟢 Speed control variables (Milliseconds)
+const speed = 100; // 50 = Fast, 100 = Slow.
+const pause = 1000; // After Line 1 end and Line 2 start pause
 
 function typeEffect() {
     if (i < text1.length) {
-        line1.innerHTML += text1.charAt(i); i++;
-        setTimeout(typeEffect, 50);
-    } else if (j < text2.length) {
-        line2.innerHTML += text2.charAt(j); j++;
-        setTimeout(typeEffect, 50);
+        line1.innerHTML += text1.charAt(i); 
+        i++;
+        setTimeout(typeEffect, speed);
+    } 
+    else if (i === text1.length && j === 0) {
+        
+        i++;
+        setTimeout(typeEffect, pause); 
+    } 
+    else if (j < text2.length) {
+        line2.innerHTML += text2.charAt(j); 
+        j++;
+        setTimeout(typeEffect, speed);
     }
 }
+
 window.onload = () => setTimeout(typeEffect, 500);
