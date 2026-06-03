@@ -2,19 +2,28 @@ let currentCategory = 'all';
 let toolsData = [];
 
 window.addEventListener('DOMContentLoaded', async () => {
+    const grid = document.getElementById('grid-container');
+    
+    // Safety Check: If grid-container doesn't exist (e.g., on a tool page), stop execution immediately
+    if (!grid) return;
+
     try {
-        const response = await fetch('static/data.json');
+        // Path Fix: Added a leading slash '/' to consistently fetch from the root directory across all sub-URLs
+        const response = await fetch('/static/data.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         toolsData = await response.json();
         renderCards();
     } catch (error) {
         console.error("Error loading JSON data:", error);
-        document.getElementById('grid-container').innerHTML = `<p style="color: #ff2a5f; text-align: center; width: 100%;">Failed to load data. Please ensure local server is running.</p>`;
+        grid.innerHTML = `<p style="color: #ff2a5f; text-align: center; width: 100%;">Failed to load data. Please ensure local server is running.</p>`;
     }
 });
 
 function renderCards() {
     const grid = document.getElementById('grid-container');
+    // Safety Check: Ensure the grid exists before manipulating its innerHTML
+    if (!grid) return;
+
     grid.innerHTML = '';
 
     toolsData.forEach(tool => {
@@ -31,7 +40,6 @@ function renderCards() {
             ? `<span class="open-btn">Coming Soon <i class="fa-solid fa-lock" aria-hidden="true" style="margin-left: 4px;"></i></span>`
             : `<span class="open-btn">Launch <i class="fa-solid fa-arrow-right" aria-hidden="true" style="margin-left: 4px;"></i></span>`;
 
-        // 🟢 FIX: Changed <h3 class="tool-title"> to <h2 class="tool-title"> to fix sequential heading order
         const cardHTML = `
             <${cardTag} ${actionUrlAttr} class="${cardClasses}" data-category="${tool.category}" data-search="${tool.searchTags}">
                 <div class="card-content">
@@ -68,13 +76,23 @@ function renderCards() {
 
 function setCategory(category) {
     currentCategory = category;
+    const tabBtn = document.getElementById(`tab-${category}`);
+    // Safety Check: Ensure the tab button exists before toggling classes
+    if (!tabBtn) return;
+
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`tab-${category}`).classList.add('active');
+    tabBtn.classList.add('active');
     filterHub();
 }
 
 function filterHub() {
-    const query = document.getElementById('engine-search').value.toLowerCase().trim();
+    const searchInput = document.getElementById('engine-search');
+    const noResults = document.getElementById('no-results');
+    
+    // Safety Check: Exit if search elements don't exist on the current page
+    if (!searchInput || !noResults) return;
+
+    const query = searchInput.value.toLowerCase().trim();
     const cards = document.querySelectorAll('.bento-card');
     let matchedCount = 0;
 
@@ -92,33 +110,35 @@ function filterHub() {
         }
     });
 
-    document.getElementById('no-results').classList.toggle('hidden', matchedCount !== 0);
+    noResults.classList.toggle('hidden', matchedCount !== 0);
 }
 
 function clearSearchFilters() {
-    document.getElementById('engine-search').value = '';
+    const searchInput = document.getElementById('engine-search');
+    if (searchInput) searchInput.value = '';
     setCategory('all');
 }
 
+// --- Typing Effect Setup ---
 const text1 = "Skip the search.";
 const text2 = "premium modern tools for everyone !!";
 const line1 = document.getElementById("type-line-1");
 const line2 = document.getElementById("type-line-2");
 
 let i = 0, j = 0;
-
-// 🟢 Speed control variables (Milliseconds)
-const speed = 100; // 50 = Fast, 100 = Slow.
-const pause = 1000; // After Line 1 end and Line 2 start pause
+const speed = 100; 
+const pause = 1000; 
 
 function typeEffect() {
+    // Safety Check: If typing elements do not exist on the current page, exit cleanly without throwing errors
+    if (!line1 || !line2) return;
+
     if (i < text1.length) {
         line1.innerHTML += text1.charAt(i); 
         i++;
         setTimeout(typeEffect, speed);
     } 
     else if (i === text1.length && j === 0) {
-        
         i++;
         setTimeout(typeEffect, pause); 
     } 
@@ -129,4 +149,9 @@ function typeEffect() {
     }
 }
 
-window.onload = () => setTimeout(typeEffect, 500);
+// Safe Event Listener: Only trigger the typing animation if the elements are present on the current DOM
+window.addEventListener('load', () => {
+    if (line1 || line2) {
+        setTimeout(typeEffect, 500);
+    }
+});

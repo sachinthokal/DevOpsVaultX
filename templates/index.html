@@ -1,101 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOpsVaultX | DevOps Tools Hub</title>
+{% extends 'base.html' %}
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N2W1QDP3V3"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-N2W1QDP3V3');
-    </script>
-    
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="DevOpsVaultX" />
-    <link rel="manifest" href="/static/favicon/site.webmanifest" />
-    
-    
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="stylesheet" href="static/style.css">
-</head>
-<body>
-
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-
-    <header class="glass-nav">
-        <div class="container nav-content">
-            <a href="/" class="logo-group" aria-label="Home">
-                <div class="logo-icon" aria-hidden="true">
-                    <i class="fa-solid fa-cube"></i>
-                    <span class="ping-indicator"></span>
-                </div>
-                <div class="logo-text">DevOpsVault<span class="highlight-x">X</span></div>
-            </a>
-            <a href="https://www.youtube.com/@devopsvaultx?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="premium-btn" aria-label="Visit our YouTube channel">
-                <i class="fa-brands fa-youtube" style="color: #ff2a5f;" aria-hidden="true"></i> SUBSCRIBE
-            </a>
+{% block content %}
+<section class="hero-section">
+    <div class="container text-center">
+        <div class="status-badge">
+            <span class="status-dot"></span> Active Resources Platform
         </div>
-    </header>
+        <h1 class="hero-title">
+            <span id="type-line-1"></span><br>
+            <span id="type-line-2" class="text-gradient"></span>
+        </h1>
+        <p class="hero-subtitle">
+            Your all-in-one daily toolkit for fast, serverless utility generation. Secure, browser-based, and lightning fast.
+        </p>
+    </div>
+</section>
 
-    <section class="hero-section">
-        <div class="container text-center">
-            <div class="status-badge">
-                <span class="status-dot"></span> Active Resources Platform
-            </div>
-            <h1 class="hero-title">
-                <span id="type-line-1"></span><br>
-                <span id="type-line-2" class="text-gradient"></span>
-            </h1>
-            <p class="hero-subtitle">
-                Your all-in-one daily toolkit for fast, serverless utility generation. Secure, browser-based, and lightning fast.
-            </p>
-        </div>
-    </section>
+<div class="control-panel glass-panel">
+    <div class="tabs" role="tablist">
+        <button onclick="setCategory('all')" id="tab-all" class="tab-btn active" role="tab">📂 All Tools</button>
+        <button onclick="setCategory('text')" id="tab-text" class="tab-btn" role="tab"><i class="fa-solid fa-font text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Text</button>
+        <button onclick="setCategory('img')" id="tab-img" class="tab-btn" role="tab"><i class="fa-solid fa-image text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Images</button>
+        <button onclick="setCategory('others')" id="tab-others" class="tab-btn" role="tab"><i class="fa-solid fa-arrows-rotate text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Others</button>
+    </div>
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+        <input type="text" id="engine-search" onkeyup="filterHub()" placeholder="search tools and utilities..." aria-label="Search tools and utilities">
+    </div>
+</div>
 
-    <main class="container main-content">
-        <div class="control-panel glass-panel">
-            <div class="tabs" role="tablist">
-                <button onclick="setCategory('all')" id="tab-all" class="tab-btn active" role="tab">📂 All Tools</button>
-                <button onclick="setCategory('text')" id="tab-text" class="tab-btn" role="tab"><i class="fa-solid fa-font text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Text</button>
-                <button onclick="setCategory('img')" id="tab-img" class="tab-btn" role="tab"><i class="fa-solid fa-image text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Images</button>
-                <button onclick="setCategory('others')" id="tab-others" class="tab-btn" role="tab"><i class="fa-solid fa-arrows-rotate text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Others</button>
-            </div>
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
-                <input type="text" id="engine-search" onkeyup="filterHub()" placeholder="search tools and utilities..." aria-label="Search tools and utilities">
-            </div>
-        </div>
+<div id="grid-container" class="bento-grid" role="region" aria-label="Tools Grid"></div>
 
-        <div id="grid-container" class="bento-grid" role="region" aria-label="Tools Grid"></div>
-
-        <div id="no-results" class="empty-state hidden" aria-live="polite">
-            <i class="fa-solid fa-ghost empty-icon" aria-hidden="true"></i>
-            <p>No tools match your search criteria.</p>
-            <button onclick="clearSearchFilters()" class="premium-btn primary-btn">Reset Filters</button>
-        </div>
-    </main>
-
-    <footer class="glass-footer">
-        <div class="container footer-center">
-            <p>&copy; 2026 <strong>DevOpsVaultX</strong> <span class="divider">|</span> <span class="text-gradient">Code. Deploy. Automate. Repeat.</span> <i class="fa fa-heart heartbeat" aria-hidden="true"></i></p>
-        </div>
-    </footer>
-
-    <script src="static/script.js"></script>
-</body>
-</html>
+<div id="no-results" class="empty-state hidden" aria-live="polite">
+    <i class="fa-solid fa-ghost empty-icon" aria-hidden="true"></i>
+    <p>No tools match your search criteria.</p>
+    <button onclick="clearSearchFilters()" class="premium-btn primary-btn">Reset Filters</button>
+</div>
+{% endblock %}

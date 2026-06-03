@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Text Case Converter - Uppercase, Lowercase, Title Case | DevOpsVaultX{% endblock %}
+
+{% block head %}
+<!-- SEO & CSS -->
+<meta name="description" content="Free online text case converter tool. Quickly transform your strings into uppercase, lowercase, title case, and more.">
+<style>
+    .tool-container { max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 16px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    .editor-wrapper { position: relative; margin-bottom: 1.5rem; }
+    .styled-textarea { width: 100%; min-height: 250px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--panel-border); color: var(--text-main); padding: 1.5rem; border-radius: 12px; font-family: inherit; font-size: 1rem; resize: vertical; transition: all 0.3s ease; }
+    .styled-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+    .stats-bar { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; padding: 0 0.5rem; }
+    .controls-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; justify-content: center; }
+    .action-btn { flex: 1 1 calc(33.333% - 1rem); min-width: 140px; justify-content: center; }
+    .copy-wrapper { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--panel-border); }
+    
+    @media (max-width: 768px) { .tool-container { padding: 1.5rem 1rem; } .action-btn { flex: 1 1 calc(50% - 1rem); } }
+    @media (max-width: 480px) { .action-btn { flex: 1 1 100%; } .stats-bar { flex-direction: column; gap: 0.5rem; text-align: center; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Back Button -->
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Back to tools hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge">
+            <span class="status-dot"></span> <i class="fa-solid fa-font" aria-hidden="true"></i> String Tool
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Text Case <span class="text-gradient">Converter</span>
+        </h1>
+        <p class="tool-desc">Paste your text below and instantly convert it to your desired format.</p>
+    </div>
+
+    <!-- Editor Section -->
+    <div class="editor-wrapper">
+        <!-- 🟢 UPDATED HERE: Changed style="display:none" to class="visually-hidden" for 100% Accessibility Score -->
+        <label for="textInput" class="visually-hidden">Text to convert</label>
+        <textarea id="textInput" class="styled-textarea" placeholder="Type or paste your text here..." oninput="updateStats()"></textarea>
+        
+        <div class="stats-bar">
+            <span>
+                Words: <strong id="wordCount" class="text-gradient">0</strong> | Characters: <strong id="charCount" class="text-gradient">0</strong>
+            </span>
+            <button class="tab-btn" onclick="clearText()" style="padding: 0.2rem 0.8rem;">
+                <i class="fa-solid fa-trash-can" aria-hidden="true"></i> Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-grid">
+        <button class="premium-btn primary-btn action-btn" onclick="convertCase('sentence')">Sentence case</button>
+        <button class="premium-btn action-btn" onclick="convertCase('lower')">lowercase</button>
+        <button class="premium-btn action-btn" onclick="convertCase('upper')">UPPERCASE</button>
+        <button class="premium-btn action-btn" onclick="convertCase('title')">Title Case</button>
+        <button class="premium-btn action-btn" onclick="convertCase('alternating')">aLtErNaTiNg cAsE</button>
+        <button class="premium-btn action-btn" onclick="convertCase('camel')">camelCase</button>
+    </div>
+
+    <!-- Actions -->
+    <div class="copy-wrapper">
+        <button id="copyBtn" class="premium-btn primary-btn" onclick="copyToClipboard()" style="font-size: 1rem; padding: 0.8rem 2rem;">
+            <i class="fa-regular fa-copy" aria-hidden="true"></i> Copy to Clipboard
+        </button>
+        <span id="copyFeedback" class="text-gradient hidden" style="font-weight: 600; margin-left: 1rem; align-self: center;">Copied!</span>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- JS Logic -->
+<script>
+    const textInput = document.getElementById('textInput');
+    
+    function updateStats() {
+        const text = textInput.value;
+        document.getElementById('charCount').textContent = text.length;
+        const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+        document.getElementById('wordCount').textContent = words.length;
+    }
+
+    function convertCase(type) {
+        let text = textInput.value;
+        if (!text) return;
+
+        switch(type) {
+            case 'upper': text = text.toUpperCase(); break;
+            case 'lower': text = text.toLowerCase(); break;
+            case 'title': text = text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); break;
+            case 'sentence': text = text.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, c => c.toUpperCase()); break;
+            case 'alternating': text = text.toLowerCase().split('').map((c, i) => i % 2 === 0 ? c : c.toUpperCase()).join(''); break;
+            case 'camel': text = text.replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => index === 0 ? word.toLowerCase() : word.toUpperCase()).replace(/\s+/g, ''); break;
+        }
+        
+        textInput.value = text;
+        updateStats();
+    }
+
+    function clearText() { textInput.value = ''; updateStats(); textInput.focus(); }
+
+    function copyToClipboard() {
+        if (!textInput.value) return;
+        navigator.clipboard.writeText(textInput.value).then(() => {
+            const btn = document.getElementById('copyBtn');
+            const feedback = document.getElementById('copyFeedback');
+            
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            btn.style.background = 'var(--accent)'; btn.style.borderColor = 'var(--accent)';
+            feedback.classList.remove('hidden');
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy to Clipboard';
+                btn.style.background = 'var(--primary)'; btn.style.borderColor = 'var(--primary)';
+                feedback.classList.add('hidden');
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}
