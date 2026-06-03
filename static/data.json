@@ -13,8 +13,8 @@
         "friendlyMetric": "Format String",
         "metricIcon": "fa-solid fa-font",
         "metricColor": "#8b5cf6",
-        "actionUrl": "#",
-        "status": "disabled"
+        "actionUrl": "https://www.devopsvaultx.com/text-case-converter/",
+        "status": "active"
     },
     {
         "id": "cron-expression-guru",
