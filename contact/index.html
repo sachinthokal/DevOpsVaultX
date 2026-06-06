@@ -179,7 +179,7 @@
     </main>
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) { handleSuccessUI(); }"></iframe>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted === true) { handleSuccessUI(); }"></iframe>
 
         </div>
     </main>
@@ -194,10 +194,11 @@
     
     
 <script>
-    let submitted = false;
+    // ⚡ Global scope token binding to guarantee runtime execution context synchronization
+    window.submitted = false;
 
     function showSuccessState() {
-        submitted = true;
+        window.submitted = true; 
         const btn = document.querySelector('.terminal-form button[type="submit"]');
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
         btn.disabled = true;
@@ -211,8 +212,7 @@
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-main);">Message Sent !!</h3>
-                <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 280px; line-height: 1.4;">Thanks for reaching out!
-Your message is on its way to us. We read every suggestion and will get in touch with you shortly.</p>
+                <p style="color: var(--text-muted); font-size: 0.85rem; max-width: 280px; line-height: 1.4;">Thanks for reaching out!<br>Your message is on its way to us. We read every suggestion and will get in touch with you shortly.</p>
                 <a href="${window.location.href}" class="premium-btn" style="margin-top: 0.5rem; font-size: 0.8rem; padding: 0.5rem 1rem; border-radius: 6px;">Send Another Message</a>
             </div>
         `;
