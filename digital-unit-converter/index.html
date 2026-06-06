@@ -126,7 +126,6 @@
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
 
-    <!-- Common Navbar -->
     <header class="glass-nav">
         <div class="container nav-content">
             <a href="/" class="logo-group" aria-label="Home">
@@ -136,15 +135,21 @@
                 </div>
                 <div class="logo-text">DevOpsVault<span class="highlight-x">X</span></div>
             </a>
-            <a href="https://www.youtube.com/@devopsvaultx?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="premium-btn" aria-label="Visit our YouTube channel">
-                <i class="fa-brands fa-youtube" style="color: #ff2a5f;" aria-hidden="true"></i> SUBSCRIBE
-            </a>
+
+            <div class="nav-actions">
+                <a class="nav-link" href="/about/">ABOUT</a>
+                <a class="nav-link" href="/contact/">CONTACT</a>
+                
+                <a href="https://www.youtube.com/@devopsvaultx?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="premium-btn youtube-btn" aria-label="Visit our YouTube channel">
+                    <i class="fa-brands fa-youtube" style="color: #ff2a5f;" aria-hidden="true"></i> <span>SUBSCRIBE</span>
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container main-content">
-        
+    <main class="main-content">
+        <div class="container content-wrapper">
+            
 <div style="margin-top: 2rem;">
     <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
         <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
@@ -194,19 +199,17 @@
     </div>
 </section>
 
+        </div>
     </main>
 
-    <!-- Common Footer -->
     <footer class="glass-footer">
         <div class="container footer-center">
             <p>&copy; 2026 <strong>DevOpsVaultX</strong> <span class="divider">|</span> <span class="text-gradient">Code. Deploy. Automate. Repeat.</span> <i class="fa fa-heart heartbeat" aria-hidden="true"></i></p>
         </div>
     </footer>
 
-    <!-- Common JS -->
     <script src="/static/script.js" defer></script>
     
-    <!-- Each tool's unique JS scripts will be included here -->
     
 <script>
     // Configuration definition Matrix schema database structure elements
