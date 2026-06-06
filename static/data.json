@@ -47,8 +47,8 @@
         "friendlyMetric": "K8s Ready",
         "metricIcon": "fa-solid fa-code",
         "metricColor": "#10b981",
-        "actionUrl": "#",
-        "status": "disabled"
+        "actionUrl": "/base64-encoder-decoder/",
+        "status": "active"
     },
     {
         "id": "ip-cidr-generator",

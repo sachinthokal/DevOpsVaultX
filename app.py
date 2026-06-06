@@ -18,8 +18,12 @@ def text_case_converter():
 # CRON GURU 
 @app.route('/cron-expression-guru/')
 def cron_expression_guru():
-    # Make sure the HTML file name matches exactly what you created
     return render_template('cron-expression-guru.html')
+
+# Base64 Encoder/Decoder
+@app.route('/base64-encoder-decoder/')   
+def base64_encoder_decoder():
+    return render_template('base64-encoder-decoder.html')
 
 # Run the application in debug mode if this file is executed directly
 if __name__ == '__main__':
