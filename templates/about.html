@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>About DevOpsVaultX - Premium Modern Tools For Everyone</title>
+<meta name="description" content="Skip the search. DevOpsVaultX is your ultimate all-in-one daily toolkit for fast, serverless utility generation. Secure, browser-based, and lightning fast with 100% client-side privacy.">
+<meta name="keywords" content="devopsvaultx, devops tools, serverless utilities, browser-based tools, secure developer toolkit, skip the search, free web tools, fast utility generation">
+<link rel="canonical" href="https://www.devopsvaultx.com/about/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.devopsvaultx.com/about/">
+<meta property="og:title" content="About DevOpsVaultX - Premium Modern Tools For Everyone">
+<meta property="og:description" content="Skip the search. Access a secure, lightning-fast, and serverless developer tool hub. 100% private, browser-based utility execution.">
+
+<style>
+    /* --- Premium Tech-Terminal Layout Architecture (No Cards) --- */
+    .terminal-container {
+        width: 100%;
+        margin-top: 1.5rem;
+        background: rgba(5, 8, 16, 0.65);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        font-family: inherit;
+        overflow: hidden;
+    }
+
+    /* Terminal Header Bar mimicking an IDE window */
+    .terminal-header {
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid var(--panel-border);
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .terminal-dots {
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+    .dot-r { background: #ff5f56; }
+    .dot-y { background: #ffbd2e; }
+    .dot-g { background: #27c93f; }
+
+    .terminal-title-tag {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-muted);
+        font-weight: 700;
+    }
+
+    /* Split Matrix Block */
+    .terminal-body {
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    @media (min-width: 992px) {
+        .terminal-body {
+            grid-template-columns: 1.2fr 1.8fr;
+            align-items: center;
+        }
+        /* Lock down container viewport height for 100% single screen fit */
+        .viewport-lock {
+            max-height: calc(100vh - 160px);
+        }
+    }
+
+    /* Left Narrative Flow */
+    .manifesto-title {
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--text-main);
+    }
+
+    .manifesto-text {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Right Pipeline Checklist Flow (Replacing Cards with Linear Flow) */
+    .pipeline-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        position: relative;
+    }
+
+    /* Vertical line connecting pipeline nodes on desktop */
+    @media (min-width: 576px) {
+        .pipeline-flow::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 10px;
+            bottom: 10px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--accent), var(--primary), var(--danger), transparent);
+            opacity: 0.3;
+        }
+    }
+
+    .pipeline-node {
+        display: flex;
+        gap: 1.25rem;
+        align-items: flex-start;
+        position: relative;
+    }
+
+    .node-indicator {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--panel-border);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        font-size: 0.95rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .node-content h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 0.15rem;
+    }
+
+    .node-content p {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="padding: clamp(1rem, 2.5vw, 1.5rem) 0 0.25rem;">
+    <div class="container text-center">
+        <div class="status-badge" style="margin-bottom: 0.5rem; padding: 0.25rem 0.75rem;">
+            <span class="status-dot"></span> System Manifest
+        </div>
+        <h1 class="hero-title" style="margin-bottom: 0.25rem; font-size: clamp(1.5rem, 3.5vw, 2.2rem); letter-spacing: -0.5px;">
+            About <span class="text-gradient">DevOpsVaultX</span>
+        </h1>
+    </div>
+</section>
+
+<div class="container viewport-lock" style="max-width: 1100px; margin-bottom: 2rem;">
+    <main class="terminal-container">
+        
+        <div class="terminal-header">
+            <div class="terminal-dots">
+                <span class="dot dot-r"></span>
+                <span class="dot dot-y"></span>
+                <span class="dot dot-g"></span>
+            </div>
+            <div class="terminal-title-tag">vaultx_core_manifest.env</div>
+            <div style="width: 42px;"></div> </div>
+
+        <div class="terminal-body">
+            
+            <article style="display: flex; flex-direction: column; justify-content: center;">
+                <h2 class="manifesto-title">
+                    ⚡ Skip The Search.
+                </h2>
+                <p class="manifesto-text">
+                    Stop drowning in heavy tracking platforms, dynamic backend wait-times, and cookie configurations just to run daily micro-operations. 
+                </p>
+                <p class="manifesto-text">
+                    <strong>DevOpsVaultX</strong> delivers clean, serverless optimization blueprints architecture directly to developers. One viewport context, premium workflows for everyone.
+                </p>
+                <div style="margin-top: 0.5rem;">
+                    <a href="{{ url_for('index') }}" class="premium-btn primary-btn" style="margin-top: 0; width: 100%; max-width: 260px; justify-content: center; padding: 0.65rem; border-radius: 8px; font-size: 0.85rem;">
+                        <i class="fa-solid fa-terminal" aria-hidden="true"></i> Open Main Engine Hub
+                    </a>
+                </div>
+            </article>
+
+            <section class="pipeline-flow">
+                
+                <div class="pipeline-node">
+                    <div class="node-indicator" style="color: #10b981; border-color: rgba(16, 185, 129, 0.25);">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    </div>
+                    <div class="node-content">
+                        <h2>Smart Search Indexer</h2>
+                        <p>Instant keystroke runtime lookup filtering system. Bypasses redundant router requests, surface utilities dynamically without network overhead queries.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-node">
+                    <div class="node-indicator" style="color: #6366f1; border-color: rgba(99, 102, 241, 0.25);">
+                        <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                    </div>
+                    <div class="node-content">
+                        <h2>Multi-Category Pipelines</h2>
+                        <p>Curated micro-conversions from Cron configuration parsers to secure Base64 calculations. Built intentionally to target production debugging workflows.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-node">
+                    <div class="node-indicator" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.25);">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                    </div>
+                    <div class="node-content">
+                        <h2>Client-Side Runtime Sandbox</h2>
+                        <p>Data strings never escape your system framework parameters. All transformations run locally in-browser to completely eliminate tracking risks.</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-node">
+                    <div class="node-indicator" style="color: #ff2a5f; border-color: rgba(255, 42, 95, 0.25);">
+                        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                    </div>
+                    <div class="node-content">
+                        <h2>Zero Friction Execution Blueprint</h2>
+                        <p>No user account overhead requirements, no dynamic cookie banners, no processing limits. Direct structural deployment built using semantic web standards.</p>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+</div>
+{% endblock %}

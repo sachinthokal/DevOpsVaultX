@@ -21,10 +21,20 @@ def add_security_headers(response):
 
 # Homepage (Root URL)
 @app.route('/')
-def home():
-    # Render the index.html file located in the 'templates' folder
-    # Jinja2 will automatically handle the url_for('static', ...) links
+def index():
     return render_template('index.html')
+
+
+# Contact Page
+@app.route('/contact/')
+def contact():
+    return render_template('contact.html')
+
+# About Page
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
 
 # Text Case Converter
 @app.route('/text-case-converter/')
