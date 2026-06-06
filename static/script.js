@@ -12,6 +12,14 @@ window.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch('/static/data.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         toolsData = await response.json();
+        
+        // FIX: Sort tools data so that 'active' cards appear first and 'disabled' (Coming Soon) appear at the bottom
+        toolsData.sort((a, b) => {
+            if (a.status === 'active' && b.status === 'disabled') return -1;
+            if (a.status === 'disabled' && b.status === 'active') return 1;
+            return 0;
+        });
+
         renderCards();
     } catch (error) {
         console.error("Error loading JSON data:", error);
@@ -36,8 +44,9 @@ function renderCards() {
 
         let cardClasses = isDisabled ? "bento-card disabled" : "bento-card";
         
+        // FIX: Added 'orange-btn' class to Coming Soon button for customized styling
         let buttonHTML = isDisabled 
-            ? `<span class="open-btn">Coming Soon <i class="fa-solid fa-lock" aria-hidden="true" style="margin-left: 4px;"></i></span>`
+            ? `<span class="open-btn orange-btn">Coming Soon <i class="fa-solid fa-lock" aria-hidden="true" style="margin-left: 4px;"></i></span>`
             : `<span class="open-btn">Launch <i class="fa-solid fa-arrow-right" aria-hidden="true" style="margin-left: 4px;"></i></span>`;
 
         const cardHTML = `
@@ -120,8 +129,8 @@ function clearSearchFilters() {
 }
 
 // --- Typing Effect Setup ---
-const text1 = "Skip the search.";
-const text2 = "premium modern tools for everyone !!";
+const text1 = "Skip The Search.";
+const text2 = "Premium Modern Tools For Everyone !";
 const line1 = document.getElementById("type-line-1");
 const line2 = document.getElementById("type-line-2");
 
