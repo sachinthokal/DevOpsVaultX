@@ -15,4 +15,46 @@
         <priority>0.8</priority>
     </url>
 
+    <url>
+        <loc>https://www.devopsvaultx.com/cron-expression-guru/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.devopsvaultx.com/base64-encoder-decoder/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>    
+    </url>
+
+    <url>
+        <loc>https://www.devopsvaultx.com/ip-cidr-generator/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>    
+    </url>
+
+    <url>
+        <loc>https://www.devopsvaultx.com/digital-unit-converter/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.devopsvaultx.com/image-converter/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://www.devopsvaultx.com/kubernetes-yaml-generator/</loc>
+        <lastmod>2026-06-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
 </urlset>

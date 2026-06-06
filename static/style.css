@@ -238,3 +238,17 @@ a.tab-btn {
     align-items: center;
     gap: 0.5rem;
 }
+
+/* Fix: Glowing orange button background styling for Coming Soon badges */
+.open-btn.orange-btn {
+    background: rgba(249, 115, 22, 0.1) !important;
+    border: 1px solid rgba(249, 115, 22, 0.3) !important;
+    color: #f97316 !important;
+}
+
+/* Hover style correction for disabled cards */
+.bento-card.disabled:hover .open-btn.orange-btn {
+    background: #f97316 !important;
+    color: #fff !important;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+}

@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Dynamic Title (Each page's title will be updated here) -->
     <title>DevOpsVaultX | DevOps Tools Hub</title>
     
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-N2W1QDP3V3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-N2W1QDP3V3');
+        gtag('config', 'G-N2W1QDP3V3', {
+        'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
         
     <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
@@ -23,15 +23,27 @@
     <meta name="apple-mobile-web-app-title" content="DevOpsVaultX" />
     <link rel="manifest" href="/static/favicon/site.webmanifest" />
         
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Main CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
     <link rel="stylesheet" href="/static/style.css">
 
-    <!-- Each tool's unique CSS and Meta Tags will be included here -->
     
+<meta name="description" content="Welcome to DevOpsVaultX - Your ultimate serverless utility hub. Generate cron expressions, encode/decode Base64 strings, and access free developer tools instantly.">
+<meta name="keywords" content="devops tools, web utilities, cron expression generator, base64 encoder, devopsvaultx, free developer hub">
+<link rel="canonical" href="https://www.devopsvaultx.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="DevOpsVaultX - Ultimate Daily Utilities Hub for Developers">
+<meta property="og:description" content="All-in-one platform for fast, serverless utility generation. Secure, browser-based, and lightning fast.">
+
 </head>
 <body>
 
@@ -77,6 +89,9 @@
         <button onclick="setCategory('all')" id="tab-all" class="tab-btn active" role="tab">📂 All Tools</button>
         <button onclick="setCategory('text')" id="tab-text" class="tab-btn" role="tab"><i class="fa-solid fa-font text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Text</button>
         <button onclick="setCategory('img')" id="tab-img" class="tab-btn" role="tab"><i class="fa-solid fa-image text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Images</button>
+        <button onclick="setCategory('utilities')" id="tab-utilities" class="tab-btn" role="tab"><i class="fa-solid fa-calculator text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Utilities</button>
+        <button onclick="setCategory('automations')" id="tab-automations" class="tab-btn" role="tab"><i class="fa-solid fa-arrows-rotate text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Automation</button>
+        <button onclick="setCategory('networking')" id="tab-networking" class="tab-btn" role="tab"><i class="fa-solid fa-network-wired text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Networking</button>
         <button onclick="setCategory('others')" id="tab-others" class="tab-btn" role="tab"><i class="fa-solid fa-arrows-rotate text-warning" aria-hidden="true"></i>&nbsp; &nbsp; Others</button>
     </div>
     <div class="search-box">
@@ -103,7 +118,7 @@
     </footer>
 
     <!-- Common JS -->
-    <script src="/static/script.js"></script>
+    <script src="/static/script.js" defer></script>
     
     <!-- Each tool's unique JS scripts will be included here -->
     

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Kubernetes YAML Generator - Free K8s Manifest Builder | DevOpsVaultX</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N2W1QDP3V3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-N2W1QDP3V3', {
+        'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+        
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="DevOpsVaultX" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+        
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <link rel="stylesheet" href="/static/style.css">
+
+    
+<meta name="description" content="Free online Kubernetes YAML generator. Easily create valid K8s manifests for Deployments, Services, Ingress, ConfigMaps, and Secrets instantly in your browser.">
+<meta name="keywords" content="kubernetes yaml generator, k8s manifest builder, deployment yaml, kubernetes service generator, ingress config, devops tools, devopsvaultx">
+<link rel="canonical" href="https://www.devopsvaultx.com/kubernetes-yaml-generator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kubernetes YAML Generator - Free Online K8s Builder">
+<meta property="og:description" content="Generate structurally accurate Kubernetes manifests for Deployments, Services, and more with real-time feedback.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Kubernetes YAML Generator - DevOpsVaultX">
+
+<style>
+    /* Scoping container to minimize layout shifts (CLS) */
+    .tool-container { max-width: 1000px; margin: 2rem auto; padding: 2rem; border-radius: 16px; min-height: 500px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    
+    .k8s-badge {
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        color: #06b6d4;
+    }
+
+    /* Workspace Split Grid Layout */
+    .workspace-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    @media (min-width: 992px) { .workspace-grid { grid-template-columns: 45% 55%; } }
+
+    .panel-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .panel-title { 
+        font-size: 0.9rem; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        color: #e4e4e7; 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Form Fields Styling */
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.85rem; color: #a1a1aa; font-weight: 500; }
+    
+    .styled-input, .styled-select { 
+        width: 100%; 
+        background: rgba(0, 0, 0, 0.4); 
+        border: 1px solid var(--panel-border); 
+        color: var(--text-main); 
+        padding: 0.75rem 1rem; 
+        border-radius: 8px; 
+        font-size: 0.95rem;
+        transition: all 0.3s ease; 
+    }
+    .styled-input:focus, .styled-select:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2); }
+
+    /* Output Terminal Editor styling */
+    .yaml-terminal {
+        width: 100%;
+        min-height: 480px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--panel-border);
+        color: #22d3ee;
+        padding: 1.2rem;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        resize: none;
+        outline: none;
+    }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--panel-border);
+        color: var(--text-main);
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: all 0.2s ease;
+    }
+    .action-btn:hover { background: #06b6d4; border-color: #06b6d4; color: #fff; }
+
+    .tool-desc { color: #e4e4e7 !important; }
+    
+    /* Conditional input sections management classes */
+    .dynamic-section { display: none; flex-direction: column; gap: 1rem; }
+    .dynamic-section.active { display: flex; }
+</style>
+
+</head>
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Common Navbar -->
+    <header class="glass-nav">
+        <div class="container nav-content">
+            <a href="/" class="logo-group" aria-label="Home">
+                <div class="logo-icon" aria-hidden="true">
+                    <i class="fa-solid fa-cube"></i>
+                    <span class="ping-indicator"></span>
+                </div>
+                <div class="logo-text">DevOpsVault<span class="highlight-x">X</span></div>
+            </a>
+            <a href="https://www.youtube.com/@devopsvaultx?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="premium-btn" aria-label="Visit our YouTube channel">
+                <i class="fa-brands fa-youtube" style="color: #ff2a5f;" aria-hidden="true"></i> SUBSCRIBE
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge k8s-badge">
+            <span class="status-dot" style="background: #06b6d4; box-shadow: 0 0 10px #06b6d4;"></span> 
+            <i class="fa-solid fa-dharmachakra" aria-hidden="true"></i> K8s Builder
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Kubernetes YAML <span class="text-gradient">Generator</span>
+        </h1>
+        <p class="tool-desc">Generate valid Deployment, Service, Ingress, ConfigMap, and Secret manifests instantly.</p>
+    </div>
+
+    <div class="workspace-grid" role="region" aria-label="Kubernetes workspace controller layout">
+        
+        <div class="panel-box">
+            <div class="panel-title"><span><i class="fa-solid fa-sliders"></i> Resource Config</span></div>
+            
+            <div class="form-group">
+                <label for="resourceType">Resource Type</label>
+                <select id="resourceType" class="styled-select" onchange="switchResourceSection()" aria-label="Select Kubernetes Target Resource Type">
+                    <option value="deployment">Deployment</option>
+                    <option value="service">Service</option>
+                    <option value="ingress">Ingress</option>
+                    <option value="configmap">ConfigMap</option>
+                    <option value="secret">Secret</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="manifestName">Resource Name</label>
+                <input type="text" id="manifestName" class="styled-input" value="web-app" oninput="generateYAMLManifest()" placeholder="app-name">
+            </div>
+
+            <div class="form-group">
+                <label for="manifestNamespace">Namespace</label>
+                <input type="text" id="manifestNamespace" class="styled-input" value="default" oninput="generateYAMLManifest()" placeholder="default">
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--panel-border); margin: 0.5rem 0;">
+
+            <div id="section-deployment" class="dynamic-section active">
+                <div class="form-group">
+                    <label for="deployReplicas">Replicas</label>
+                    <input type="number" id="deployReplicas" class="styled-input" value="3" min="1" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="deployImage">Container Image</label>
+                    <input type="text" id="deployImage" class="styled-input" value="nginx:latest" oninput="generateYAMLManifest()" placeholder="nginx:latest">
+                </div>
+                <div class="form-group">
+                    <label for="deployPort">Container Port</label>
+                    <input type="number" id="deployPort" class="styled-input" value="80" oninput="generateYAMLManifest()">
+                </div>
+            </div>
+
+            <div id="section-service" class="dynamic-section">
+                <div class="form-group">
+                    <label for="svcType">Service Type</label>
+                    <select id="svcType" class="styled-select" onchange="generateYAMLManifest()">
+                        <option value="ClusterIP">ClusterIP</option>
+                        <option value="NodePort">NodePort</option>
+                        <option value="LoadBalancer">LoadBalancer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="svcPort">Port</label>
+                    <input type="number" id="svcPort" class="styled-input" value="80" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="svcTargetPort">Target Port</label>
+                    <input type="number" id="svcTargetPort" class="styled-input" value="80" oninput="generateYAMLManifest()">
+                </div>
+            </div>
+
+            <div id="section-ingress" class="dynamic-section">
+                <div class="form-group">
+                    <label for="ingHost">Host Domain</label>
+                    <input type="text" id="ingHost" class="styled-input" value="app.example.com" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="ingSvcName">Backend Service Name</label>
+                    <input type="text" id="ingSvcName" class="styled-input" value="web-service" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="ingSvcPort">Backend Service Port</label>
+                    <input type="number" id="ingSvcPort" class="styled-input" value="80" oninput="generateYAMLManifest()">
+                </div>
+            </div>
+
+            <div id="section-configmap" class="dynamic-section">
+                <div class="form-group">
+                    <label for="cmKey">Data Key</label>
+                    <input type="text" id="cmKey" class="styled-input" value="config.properties" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="cmValue">Data Value</label>
+                    <input type="text" id="cmValue" class="styled-input" value="environment=production" oninput="generateYAMLManifest()">
+                </div>
+            </div>
+
+            <div id="section-secret" class="dynamic-section">
+                <div class="form-group">
+                    <label for="secretKey">Secret Key</label>
+                    <input type="text" id="secretKey" class="styled-input" value="api-key" oninput="generateYAMLManifest()">
+                </div>
+                <div class="form-group">
+                    <label for="secretValue">Secret Value (Plain text, tool will auto Base64 encode)</label>
+                    <input type="text" id="secretValue" class="styled-input" value="super-secret-token" oninput="generateYAMLManifest()">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-box">
+            <div class="panel-title">
+                <span><i class="fa-solid fa-code"></i> Live Manifest YAML</span>
+                <button class="action-btn" onclick="copyYAMLOutput()" title="Copy manifest stream payload" aria-label="Copy code block content">Copy YAML</button>
+            </div>
+            <textarea id="yamlOutput" class="yaml-terminal" readonly aria-label="Generated Kubernetes YAML manifest terminal display output"></textarea>
+        </div>
+
+    </div>
+</section>
+
+    </main>
+
+    <!-- Common Footer -->
+    <footer class="glass-footer">
+        <div class="container footer-center">
+            <p>&copy; 2026 <strong>DevOpsVaultX</strong> <span class="divider">|</span> <span class="text-gradient">Code. Deploy. Automate. Repeat.</span> <i class="fa fa-heart heartbeat" aria-hidden="true"></i></p>
+        </div>
+    </footer>
+
+    <!-- Common JS -->
+    <script src="/static/script.js" defer></script>
+    
+    <!-- Each tool's unique JS scripts will be included here -->
+    
+<script>
+    // Handle conditional fields visibility blocks states shifts cleanly
+    function switchResourceSection() {
+        const selectedType = document.getElementById('resourceType').value;
+        
+        // Disable visibility structures parameters completely across the stack
+        document.querySelectorAll('.dynamic-section').forEach(section => {
+            section.classList.remove('active');
+        });
+
+        // Activate core selected layout target component context layer
+        document.getElementById(`section-${selectedType}`).classList.add('active');
+        generateYAMLManifest();
+    }
+
+    // High performance orchestration rendering engine loop strategy execution rules
+    function generateYAMLManifest() {
+        const type = document.getElementById('resourceType').value;
+        const name = document.getElementById('manifestName').value.trim() || 'app-resource';
+        const namespace = document.getElementById('manifestNamespace').value.trim() || 'default';
+        const outputTextArea = document.getElementById('yamlOutput');
+
+        let yamlOutput = '';
+
+        // Strategic construction routing matching resource specification rules
+        if (type === 'deployment') {
+            const replicas = document.getElementById('deployReplicas').value || 1;
+            const image = document.getElementById('deployImage').value.trim() || 'nginx:latest';
+            const port = document.getElementById('deployPort').value || 80;
+
+            yamlOutput = `apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+  labels:
+    app: ${name}
+spec:
+  replicas: ${replicas}
+  selector:
+    matchLabels:
+      app: ${name}
+  template:
+    metadata:
+      labels:
+        app: ${name}
+    spec:
+      containers:
+      - name: container
+        image: ${image}
+        ports:
+        - containerPort: ${port}`;
+
+        } else if (type === 'service') {
+            const svcType = document.getElementById('svcType').value;
+            const port = document.getElementById('svcPort').value || 80;
+            const targetPort = document.getElementById('svcTargetPort').value || 80;
+
+            yamlOutput = `apiVersion: v1
+kind: Service
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+spec:
+  type: ${svcType}
+  selector:
+    app: ${name}
+  ports:
+  - protocol: TCP
+    port: ${port}
+    targetPort: ${targetPort}`;
+
+        } else if (type === 'ingress') {
+            const host = document.getElementById('ingHost').value.trim() || 'app.example.com';
+            const svcName = document.getElementById('ingSvcName').value.trim() || 'web-service';
+            const svcPort = document.getElementById('ingSvcPort').value || 80;
+
+            yamlOutput = `apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ${host}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ${svcName}
+            port:
+              number: ${svcPort}`;
+
+        } else if (type === 'configmap') {
+            const cmKey = document.getElementById('cmKey').value.trim() || 'key';
+            const cmValue = document.getElementById('cmValue').value.trim() || 'value';
+
+            yamlOutput = `apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+data:
+  ${cmKey}: "${cmValue}"`;
+
+        } else if (type === 'secret') {
+            const secretKey = document.getElementById('secretKey').value.trim() || 'key';
+            const secretValue = document.getElementById('secretValue').value.trim() || 'value';
+            
+            // Auto Base64 encoding for structural Kubernetes compliance rules
+            let encodedValue = '';
+            try {
+                encodedValue = btoa(unescape(encodeURIComponent(secretValue)));
+            } catch(e) {
+                encodedValue = btoa(secretValue);
+            }
+
+            yamlOutput = `apiVersion: v1
+kind: Secret
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+type: Opaque
+data:
+  ${secretKey}: ${encodedValue}`;
+        }
+
+        // Output raw data configuration context mapping properties definitions
+        outputTextArea.value = yamlOutput;
+    }
+
+    // Clipboard pipeline system communication logic interaction
+    function copyYAMLOutput() {
+        const outputArea = document.getElementById('yamlOutput');
+        if (!outputArea.value) return;
+
+        navigator.clipboard.writeText(outputArea.value).then(() => {
+            const copyBtn = document.querySelector('[onclick="copyYAMLOutput()"]');
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+            setTimeout(() => {
+                copyBtn.innerHTML = originalHTML;
+            }, 2000);
+        });
+    }
+
+    // Trigger calculation sequence loop mapping elements instantly upon initial document initialized loaded
+    window.addEventListener('DOMContentLoaded', () => {
+        generateYAMLManifest();
+    });
+</script>
+
+</body>
+</html>

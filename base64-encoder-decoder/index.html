@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Base64 Encoder & Decoder - Online Web Utilities | DevOpsVaultX</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N2W1QDP3V3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-N2W1QDP3V3', {
+        'cookie_flags': 'SameSite=None;Secure'
+        });
+    </script>
+        
+    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/static/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="DevOpsVaultX" />
+    <link rel="manifest" href="/static/favicon/site.webmanifest" />
+        
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <link rel="stylesheet" href="/static/style.css">
+
+    
+<meta name="description" content="Free online tool to encode and decode Base64 strings instantly. Secure, real-time Base64 conversion tool for developers and DevOps engineers.">
+<meta name="keywords" content="base64 encoder, base64 decoder, base64 convert, devops tools, web utilities, devopsvaultx">
+<link rel="canonical" href="http://localhost:5000/base64-encoder-decoder/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Base64 Encoder & Decoder - Free Online Web Utilities">
+<meta property="og:description" content="Encode strings to Base64 or decode them back to plain text instantly with real-time feedback.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Base64 Encoder & Decoder - Free Online Web Utilities">
+
+<style>
+    /* Scoping container to minimize layout shifts (CLS) */
+    .tool-container { max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 16px; min-height: 500px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    
+    .base64-badge {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        color: #10b981;
+    }
+    
+    /* Dual panel layout for seamless responsive adjustments */
+    .grid-layout { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    @media (min-width: 768px) { .grid-layout { grid-template-columns: 1fr 1fr; } }
+
+    .panel-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .panel-title { 
+        font-size: 0.9rem; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        color: var(--text-muted); 
+        margin-bottom: 0.75rem; 
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
+    }
+
+    .styled-textarea {
+        width: 100%;
+        min-height: 180px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--panel-border);
+        color: var(--text-main);
+        padding: 1rem;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1rem;
+        resize: vertical;
+        transition: all 0.3s ease;
+    }
+    .styled-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--panel-border);
+        color: var(--text-main);
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: all 0.2s ease;
+    }
+    .action-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    /* Mode Selection Tabs styling */
+    .mode-selector { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .mode-btn { min-height: 48px; padding: 0.6rem 1.5rem; font-weight: 600; }
+    .mode-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+    .error-msg { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+</style>
+
+</head>
+<body>
+
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Common Navbar -->
+    <header class="glass-nav">
+        <div class="container nav-content">
+            <a href="/" class="logo-group" aria-label="Home">
+                <div class="logo-icon" aria-hidden="true">
+                    <i class="fa-solid fa-cube"></i>
+                    <span class="ping-indicator"></span>
+                </div>
+                <div class="logo-text">DevOpsVault<span class="highlight-x">X</span></div>
+            </a>
+            <a href="https://www.youtube.com/@devopsvaultx?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="premium-btn" aria-label="Visit our YouTube channel">
+                <i class="fa-brands fa-youtube" style="color: #ff2a5f;" aria-hidden="true"></i> SUBSCRIBE
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge base64-badge">
+            <span class="status-dot" style="background: #10b981; box-shadow: 0 0 10px #10b981;"></span> 
+            <i class="fa-solid fa-bolt" aria-hidden="true"></i> Real-time Converter
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Base64 Encoder <span class="text-gradient">& Decoder</span>
+        </h1>
+        <p class="tool-desc">Convert plain text strings to Base64 structure format or translate them back cleanly.</p>
+    </div>
+
+    <div class="mode-selector">
+        <button id="btnEncodeMode" class="tab-btn mode-btn active" onclick="switchMode('encode')" aria-label="Switch tool mode to Encoder configuration">Encode Mode</button>
+        <button id="btnDecodeMode" class="tab-btn mode-btn" onclick="switchMode('decode')" aria-label="Switch tool mode to Decoder configuration">Decode Mode</button>
+    </div>
+
+    <div class="grid-layout">
+        <div class="panel-box">
+            <div class="panel-title">
+                <span id="inputLabel"><i class="fa-solid fa-keyboard"></i> Plain Text Input</span>
+                <button class="action-btn" onclick="clearAll()" title="Clear content blocks">Clear</button>
+            </div>
+            <textarea id="inputText" class="styled-textarea" placeholder="Type or paste your text here..." oninput="processConversion()"></textarea>
+        </div>
+
+        <div class="panel-box">
+            <div class="panel-title">
+                <span id="outputLabel"><i class="fa-solid fa-code"></i> Base64 Output</span>
+                <button class="action-btn" onclick="copyOutput()" title="Copy system conversion string payload">Copy</button>
+            </div>
+            <textarea id="outputText" class="styled-textarea" placeholder="Output payload will appear here..." readonly></textarea>
+            <div id="conversionError" class="error-msg"><i class="fa-solid fa-triangle-exclamation"></i> Invalid Base64 data formatting sequence.</div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <!-- Common Footer -->
+    <footer class="glass-footer">
+        <div class="container footer-center">
+            <p>&copy; 2026 <strong>DevOpsVaultX</strong> <span class="divider">|</span> <span class="text-gradient">Code. Deploy. Automate. Repeat.</span> <i class="fa fa-heart heartbeat" aria-hidden="true"></i></p>
+        </div>
+    </footer>
+
+    <!-- Common JS -->
+    <script src="/static/script.js" defer></script>
+    
+    <!-- Each tool's unique JS scripts will be included here -->
+    
+<script>
+    // Global tracking parameter configuration scope element flag
+    let currentMode = 'encode';
+
+    // Switch conversion workflow environment state parameters
+    function switchMode(mode) {
+        currentMode = mode;
+        
+        const btnEncode = document.getElementById('btnEncodeMode');
+        const btnDecode = document.getElementById('btnDecodeMode');
+        const inputLabel = document.getElementById('inputLabel');
+        const outputLabel = document.getElementById('outputLabel');
+        const inputTextArea = document.getElementById('inputText');
+        const outputTextArea = document.getElementById('outputText');
+
+        // Clear existing context blocks to prevent layout overlapping discrepancies
+        inputTextArea.value = '';
+        outputTextArea.value = '';
+        document.getElementById('conversionError').style.display = 'none';
+
+        if (mode === 'encode') {
+            btnEncode.classList.add('active');
+            btnDecode.classList.remove('active');
+            inputLabel.innerHTML = `<i class="fa-solid fa-keyboard"></i> Plain Text Input`;
+            outputLabel.innerHTML = `<i class="fa-solid fa-code"></i> Base64 Output`;
+            inputTextArea.placeholder = "Type or paste your text here...";
+        } else {
+            btnDecode.classList.add('active');
+            btnEncode.classList.remove('active');
+            inputLabel.innerHTML = `<i class="fa-solid fa-code"></i> Base64 Input`;
+            outputLabel.innerHTML = `<i class="fa-solid fa-keyboard"></i> Plain Text Output`;
+            inputTextArea.placeholder = "Paste your Base64 encoded payload string here...";
+        }
+    }
+
+    // High performance routing processing logic routine parameters
+    function processConversion() {
+        const inputData = document.getElementById('inputText').value;
+        const outputTextArea = document.getElementById('outputText');
+        const errorElement = document.getElementById('conversionError');
+
+        errorElement.style.display = 'none';
+
+        if (!inputData) {
+            outputTextArea.value = '';
+            return;
+        }
+
+        try {
+            if (currentMode === 'encode') {
+                // Safe browser UTF-8 architecture mapping encoder layer structure
+                const encodedData = btoa(unescape(encodeURIComponent(inputData)));
+                outputTextArea.value = encodedData;
+            } else {
+                // Decode algorithm layer processing configuration boundary checks
+                try {
+                    const decodedData = decodeURIComponent(escape(atob(inputData)));
+                    outputTextArea.value = decodedData;
+                } catch (err) {
+                    // Fallback to standard baseline decoder strategy validation evaluation mapping steps
+                    outputTextArea.value = atob(inputData);
+                }
+            }
+        } catch (e) {
+            outputTextArea.value = '';
+            if (currentMode === 'decode') {
+                errorElement.style.display = 'block';
+            }
+        }
+    }
+
+    // Clipboard pipeline manager interaction logic
+    function copyOutput() {
+        const outputArea = document.getElementById('outputText');
+        if (!outputArea.value) return;
+
+        navigator.clipboard.writeText(outputArea.value).then(() => {
+            const copyBtn = document.querySelector('[onclick="copyOutput()"]');
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+            setTimeout(() => {
+                copyBtn.innerHTML = originalHTML;
+            }, 2000);
+        });
+    }
+
+    // Reset layout state structures cleanly matching baseline parameters
+    function clearAll() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('outputText').value = '';
+        document.getElementById('conversionError').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
