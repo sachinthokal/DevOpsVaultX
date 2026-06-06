@@ -3,6 +3,19 @@ from flask import Flask, render_template
 # Initialize the Flask application
 app = Flask(__name__)
 
+# ------------------------------------------------------------------
+# ADDING SECURITY HEADERS TO FIX LIGHTHOUSE BEST PRACTICES
+# ------------------------------------------------------------------
+@app.after_request
+def add_security_headers(response):
+    # 1. Mitigate Clickjacking
+    response.headers['X-Frame-Options'] = 'DENY'
+    # 2. Prevent MIME-sniffing
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    # 3. Secure Origin Isolation
+    response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+    return response
+
 # Homepage (Root URL)
 @app.route('/')
 def home():
@@ -24,6 +37,10 @@ def cron_expression_guru():
 @app.route('/base64-encoder-decoder/')   
 def base64_encoder_decoder():
     return render_template('base64-encoder-decoder.html')
+
+@app.route('/ip-cidr-generator/')
+def ip_cidr_generator():
+    return render_template('ip-cidr-generator.html')
 
 # Run the application in debug mode if this file is executed directly
 if __name__ == '__main__':

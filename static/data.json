@@ -64,7 +64,7 @@
         "friendlyMetric": "VNet Planner",
         "metricIcon": "fa-solid fa-network-wired",
         "metricColor": "#38bdf8",
-        "actionUrl": "#",
-        "status": "disabled"
+        "actionUrl": "/ip-cidr-generator/",
+        "status": "active"
     }
 ]
