@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+
+{% block title %}Cron Expression Guru - Free Online Cron Generator & Parser | DevOpsVaultX{% endblock %}
+
+{% block head %}
+<meta name="description" content="Free online tool to generate, translate, and validate Linux cron expressions. Convert crontab schedules into human-readable text and view next execution dates instantly.">
+<meta name="keywords" content="cron expression guru, cron generator, crontab parser, linux automation, cron jobs scheduling, devops tools, devopsvaultx">
+<link rel="canonical" href="https://devopsvaultx.com/cron-expression-guru/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cron Expression Guru - Free Online Cron Generator & Parser">
+<meta property="og:description" content="Convert complex crontab schedules into human-readable text and view next execution dates instantly.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Cron Expression Guru - Free Online Cron Generator & Parser">
+
+<style>
+    /* Scoping container to minimize layout shifts (CLS) */
+    .tool-container { max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 16px; min-height: 500px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    
+    .cron-badge {
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        color: #6366f1;
+    }
+    
+    .input-wrapper { position: relative; margin-bottom: 1.5rem; }
+    .styled-input { 
+        width: 100%; 
+        background: rgba(0, 0, 0, 0.4); 
+        border: 1px solid var(--panel-border); 
+        color: var(--text-main); 
+        padding: 1.2rem 1.5rem; 
+        border-radius: 12px; 
+        font-family: 'Courier New', Courier, monospace; 
+        font-size: 1.2rem; 
+        letter-spacing: 2px;
+        text-align: center;
+        transition: all 0.3s ease; 
+    }
+    .styled-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+    
+    /* Accessibility: Interactive element tap target size (Minimum 48px x 48px) */
+    .quick-presets { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; }
+    .preset-btn { min-height: 48px; padding: 0.6rem 1.2rem; display: inline-flex; align-items: center; justify-content: center; }
+    
+    .result-box { 
+        background: rgba(255, 255, 255, 0.02); 
+        border: 1px solid var(--panel-border); 
+        border-radius: 12px; 
+        padding: 1.5rem; 
+        margin-top: 1.5rem;
+    }
+    .result-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .human-text { font-size: 1.15rem; font-weight: 600; color: #10b981; margin-bottom: 1rem; }
+    
+    .schedule-list { list-style: none; padding: 0; margin: 0; }
+    .schedule-item { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.9rem; }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-item span { font-family: monospace; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge cron-badge">
+            <span class="status-dot" style="background: #6366f1; box-shadow: 0 0 10px #6366f1;"></span> 
+            <i class="fa-regular fa-clock" aria-hidden="true"></i> Real-time Scheduler
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Cron Expression <span class="text-gradient">Guru</span>
+        </h1>
+        <p class="tool-desc">Parse, validate, and understand Linux crontab expressions instantly.</p>
+    </div>
+
+    <div class="input-wrapper">
+        <label for="cronInput" class="visually-hidden">Enter Cron Expression string descriptor</label>
+        <input type="text" id="cronInput" class="styled-input" value="*/15 * * * *" placeholder="* * * * *" oninput="parseCron()">
+    </div>
+
+    <div class="quick-presets">
+        <button class="tab-btn preset-btn" onclick="setPreset('* * * * *')" aria-label="Set cron preset to every minute">Every Minute</button>
+        <button class="tab-btn preset-btn" onclick="setPreset('0 * * * *')" aria-label="Set cron preset to hourly execution">Hourly</button>
+        <button class="tab-btn preset-btn" onclick="setPreset('0 0 * * *')" aria-label="Set cron preset to daily at midnight">Daily (Midnight)</button>
+        <button class="tab-btn preset-btn" onclick="setPreset('0 0 * * 0')" aria-label="Set cron preset to weekly on Sunday">Weekly (Sunday)</button>
+        <button class="tab-btn preset-btn" onclick="setPreset('0 0 1 * *')" aria-label="Set cron preset to monthly execution">Monthly</button>
+    </div>
+
+    <div class="result-box" role="region" aria-label="Cron execution human translation output">
+        <div class="result-title">
+            <i class="fa-solid fa-language" aria-hidden="true"></i> Human Readable Meaning
+        </div>
+        <div id="cronTranslation" class="human-text" aria-live="polite">Every 15 minutes.</div>
+        
+        <div class="result-title" style="margin-top: 1.5rem;">
+            <i class="fa-solid fa-timeline" aria-hidden="true"></i> Next Execution Timeline (UTC)
+        </div>
+        <ul id="scheduleTimeline" class="schedule-list"></ul>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Pure JS parser definitions for standard fields matrix mapping
+    function translateCronParts(parts) {
+        let min, hour, dom, month, dow;
+        
+        if (parts.length === 6) {
+            [, min, hour, dom, month, dow] = parts; 
+        } else {
+            [min, hour, dom, month, dow] = parts;
+        }
+
+        let desc = "Runs ";
+
+        // Minutes Translation
+        if (min === '*') desc += "every minute";
+        else if (min.startsWith('*/')) desc += `every ${min.split('/')[1]} minutes`;
+        else desc += `at minute ${min}`;
+
+        // Hours Translation
+        if (hour !== '*') {
+            if (hour.startsWith('*/')) desc += `, every ${hour.split('/')[1]} hours`;
+            else desc += `, at hour ${hour}`;
+        }
+
+        // Days setup
+        if (dom !== '*') desc += `, on day of month ${dom}`;
+        if (month !== '*') desc += `, in month ${month}`;
+
+        // Weeks logic setup
+        if (dow !== '*') {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            desc += `, on ${dow.split(',').map(d => days[d] || d).join(', ')}`;
+        }
+
+        return desc + " (UTC).";
+    }
+
+    // Advanced Robust Scheduler Engine for UTC Timeline Generation
+    function parseCron() {
+        const rawInput = document.getElementById('cronInput').value.trim();
+        const input = rawInput.replace(/\s+/g, ' ');
+        
+        const translationEl = document.getElementById('cronTranslation');
+        const timelineEl = document.getElementById('scheduleTimeline');
+
+        if (!input) {
+            translationEl.textContent = "Please enter a cron pattern.";
+            if (timelineEl) timelineEl.innerHTML = "";
+            return;
+        }
+
+        const parts = input.split(' ');
+        if (parts.length < 5 || parts.length > 6) {
+            translationEl.textContent = "Invalid cron format (Requires 5 standard fields or 6 extended fields).";
+            translationEl.style.color = "var(--danger)";
+            if (timelineEl) timelineEl.innerHTML = "";
+            return;
+        }
+
+        try {
+            translationEl.textContent = translateCronParts(parts);
+            translationEl.style.color = "#10b981"; 
+
+            let minPart = parts.length === 6 ? parts[1] : parts[0];
+            let hourPart = parts.length === 6 ? parts[2] : parts[1];
+            let dowPart = parts.length === 6 ? parts[5] : parts[4];
+
+            // 1. Generate array of valid minutes (0-59)
+            let validMinutes = [];
+            if (minPart === '*') {
+                for (let i = 0; i < 60; i++) validMinutes.push(i);
+            } else if (minPart.startsWith('*/')) {
+                let step = parseInt(minPart.split('/')[1]) || 15;
+                for (let i = 0; i < 60; i += step) validMinutes.push(i);
+            } else {
+                validMinutes = minPart.split(',').map(x => parseInt(x));
+            }
+
+            // 2. Generate array of valid hours (0-23)
+            let validHours = [];
+            if (hourPart === '*') {
+                for (let i = 0; i < 24; i++) validHours.push(i);
+            } else if (hourPart.startsWith('*/')) {
+                let step = parseInt(hourPart.split('/')[1]) || 1;
+                for (let i = 0; i < 24; i += step) validHours.push(i);
+            } else {
+                validHours = hourPart.split(',').map(x => parseInt(x));
+            }
+
+            // 3. Generate array of valid days of the week (0-6) [0=Sunday]
+            let validDaysOfWeek = [];
+            if (dowPart === '*') {
+                for (let i = 0; i < 7; i++) validDaysOfWeek.push(i);
+            } else {
+                validDaysOfWeek = dowPart.split(',').map(x => parseInt(x));
+            }
+
+            const dates = [];
+            let current = new Date();
+            
+            // Clear seconds and milliseconds to ensure accurate calculations
+            current.setUTCSeconds(0, 0);
+            
+            // Advance by 1 minute to calculate strictly upcoming executions
+            current.setUTCMinutes(current.getUTCMinutes() + 1);
+
+            // Set iteration limits to ensure extensive timeline evaluation for weekly/monthly schedules
+            let loopGuard = 0;
+            const maxIterations = 100000; 
+
+            while (dates.length < 5 && loopGuard < maxIterations) {
+                loopGuard++;
+
+                let h = current.getUTCHours();
+                let m = current.getUTCMinutes();
+                let d = current.getUTCDay();
+
+                // Validate current timestamp against all cron boundary filters simultaneously
+                if (validMinutes.includes(m) && validHours.includes(h) && validDaysOfWeek.includes(d)) {
+                    dates.push(new Date(current));
+                }
+
+                current.setUTCMinutes(current.getUTCMinutes() + 1);
+            }
+
+            // Render execution steps cleanly onto the output pipeline timeline container
+            if (timelineEl) {
+                timelineEl.innerHTML = "";
+                if (dates.length === 0) {
+                    timelineEl.innerHTML = `<li class="schedule-item"><span>No upcoming executions found.</span></li>`;
+                } else {
+                    dates.forEach((date, index) => {
+                        const li = document.createElement('li');
+                        li.className = 'schedule-item';
+                        
+                        // ISO Format conversion mapped explicitly for uniform UTC string display
+                        const utcString = date.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+                        
+                        li.innerHTML = `
+                            <span>Next execution #${index + 1}</span>
+                            <strong>${utcString}</strong>
+                        `;
+                        timelineEl.appendChild(li);
+                    });
+                }
+            }
+
+        } catch (e) {
+            translationEl.textContent = "Invalid cron expression formatting syntax.";
+            translationEl.style.color = "var(--danger)";
+            if (timelineEl) timelineEl.innerHTML = "";
+        }
+    }
+
+    function setPreset(pattern) {
+        document.getElementById('cronInput').value = pattern;
+        parseCron();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        parseCron();
+    });
+</script>
+{% endblock %}  

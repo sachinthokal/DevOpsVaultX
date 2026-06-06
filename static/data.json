@@ -30,8 +30,8 @@
         "friendlyMetric": "Cron Validator",
         "metricIcon": "fa-regular fa-clock",
         "metricColor": "#ec4899",
-        "actionUrl": "#",
-        "status": "disabled"
+        "actionUrl": "/cron-expression-guru/",
+        "status": "active"
     },
     {
         "id": "base64-encoder-decoder",
