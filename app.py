@@ -16,21 +16,6 @@ def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     # 3. Secure Origin Isolation
     response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
-
-    # 4. Use a strong HSTS Policy (Enforced even on localhost during testing)
-    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
-    
-    # 5. Robust Content Security Policy (CSP) - Allowing Google Analytics & Fonts cleanly
-    csp_policy = (
-        "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://cdnjs.cloudflare.com; "
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; "
-        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; "
-        "img-src 'self' data: https://www.googletagmanager.com https://analytics.google.com; "
-        "connect-src 'self' https://analytics.google.com https://stats.g.doubleclick.net; "
-        "require-trusted-types-for 'script';"
-    )
-    response.headers['Content-Security-Policy'] = csp_policy
     
     return response
 
@@ -70,6 +55,11 @@ def digital_unit_converter():
 @app.route('/image-converter/')
 def image_converter():
     return render_template('image-converter.html')
+
+# Kubernetes YAML Generator
+@app.route('/kubernetes-yaml-generator/')
+def kubernetes_yaml_generator():
+    return render_template('kubernetes-yaml-generator.html')
 
 # Run the application in debug mode if this file is executed directly
 if __name__ == '__main__':
