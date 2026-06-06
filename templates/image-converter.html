@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+{% block title %}Image Converter - Convert JPG, PNG, WebP, GIF Online | DevOpsVaultX{% endblock %}
+
+{% block head %}
+<meta name="description" content="Free online image converter tool. Convert PNG to JPG, JPG to PNG, WebP to PNG instantly in your browser. Fast, secure, and fully client-side image processing.">
+<meta name="keywords" content="image converter, png to jpg, jpg to png, webp to png, convert webp, image utility, devops tools, devopsvaultx">
+<link rel="canonical" href="https://www.devopsvaultx.com/image-converter/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Image Converter - Free Instant Web Utility">
+<meta property="og:description" content="Convert images between JPG, PNG, WebP, and BMP formats instantly with absolute client-side security.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Image Converter - DevOpsVaultX">
+
+<style>
+    /* Scoping container to minimize layout shifts (CLS) */
+    .tool-container { max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 16px; min-height: 500px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    
+    .image-badge {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        color: #f59e0b;
+    }
+
+    /* Drag and Drop Zone styling */
+    .drop-zone {
+        border: 2px dashed var(--panel-border);
+        border-radius: 12px;
+        padding: 3rem 2rem;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.01);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+    }
+    .drop-zone:hover, .drop-zone.drag-over { border-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
+    .drop-icon { font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem; }
+    
+    /* Configuration layout workspace blocks */
+    .config-panel {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        display: none; /* Hidden until file loaded */
+    }
+
+    .config-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 768px) { .config-grid { grid-template-columns: 1fr 1fr; } }
+
+    .meta-item { font-size: 0.9rem; color: #e4e4e7; margin-bottom: 0.5rem; }
+    .meta-item strong { color: var(--text-main); font-family: monospace; }
+
+    .styled-select {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--panel-border);
+        color: var(--text-main);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .styled-select:focus { outline: none; border-color: var(--primary); }
+
+    .convert-btn {
+        width: 100%;
+        min-height: 48px;
+        margin-top: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    /* Preview thumbnail frame architecture */
+    .preview-box {
+        max-width: 120px;
+        max-height: 120px;
+        border-radius: 8px;
+        border: 1px solid var(--panel-border);
+        object-fit: cover;
+    }
+    .preview-flex { display: flex; gap: 1.5rem; align-items: center; }
+
+    .error-msg { color: var(--danger); font-size: 0.9rem; text-align: center; margin-top: 1rem; display: none; }
+    .tool-desc { color: #e4e4e7 !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge image-badge">
+            <span class="status-dot" style="background: #f59e0b; box-shadow: 0 0 10px #f59e0b;"></span> 
+            <i class="fa-solid fa-image" aria-hidden="true"></i> Web Graphics Tool
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Image Format <span class="text-gradient">Converter</span>
+        </h1>
+        <p class="tool-desc">Convert files between JPG, PNG, WebP, and BMP structures securely inside your local browser.</p>
+    </div>
+
+    <div id="dropZone" class="drop-zone" role="button" tabindex="0" aria-label="Upload image target container area">
+        <input type="file" id="imageInput" accept="image/*" style="display: none;" aria-label="Hidden upload file structural trigger input">
+        <i class="fa-solid fa-cloud-arrow-up drop-icon" aria-hidden="true"></i>
+        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Drag & Drop Image Here</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">or click to browse local storage volumes</p>
+    </div>
+
+    <div id="processingError" class="error-msg">
+        <i class="fa-solid fa-triangle-exclamation"></i> Unable to process the selected image file structure layout.
+    </div>
+
+    <div id="configPanel" class="config-panel">
+        <div class="config-grid">
+            
+            <div class="preview-flex">
+                <img id="imgPreview" class="preview-box" src="" alt="Uploaded image layout target visualization thumbnail context">
+                <div>
+                    <h4 style="font-size: 1rem; margin-bottom: 0.5rem; word-break: break-all;" id="fileNameDisplay">Image_Name.png</h4>
+                    <div class="meta-item">Dimensions: <strong id="metaDimensions">-</strong></div>
+                    <div class="meta-item">Input Size: <strong id="metaSize">-</strong></div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; justify-content: center; gap: 0.5rem;">
+                <label for="targetFormat" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #a1a1aa;">Target Format Output</label>
+                <select id="targetFormat" class="styled-select" aria-label="Target image conversion destination extension format">
+                    <option value="image/png">PNG (.png)</option>
+                    <option value="image/jpeg">JPEG (.jpg)</option>
+                    <option value="image/webp">WebP (.webp)</option>
+                    <option value="image/bmp">BMP (.bmp)</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button id="convertBtn" class="premium-btn primary-btn convert-btn" onclick="convertAndDownload()">
+            <i class="fa-solid fa-file-export"></i> Convert & Download Image
+        </button>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let globalImageFile = null;
+    let loadedImageObject = null;
+
+    const dropZone = document.getElementById('dropZone');
+    const imageInput = document.getElementById('imageInput');
+    const configPanel = document.getElementById('configPanel');
+    const errorEl = document.getElementById('processingError');
+
+    // Wire interactivity event listener boundaries rules
+    dropZone.addEventListener('click', () => imageInput.click());
+    dropZone.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') imageInput.click(); });
+
+    // Drag over styling hooks additions
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
+
+    // Handle uploaded file metadata and validate structures
+    function handleFile(file) {
+        if (!file.type.startsWith('image/')) {
+            errorEl.style.display = 'block';
+            configPanel.style.display = 'none';
+            return;
+        }
+        errorEl.style.display = 'none';
+        globalImageFile = file;
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            loadedImageObject = new Image();
+            loadedImageObject.onload = function() {
+                // Populate configuration data attributes descriptors safely
+                document.getElementById('imgPreview').src = event.target.result;
+                document.getElementById('fileNameDisplay').textContent = file.name;
+                document.getElementById('metaDimensions').textContent = `${loadedImageObject.width} x ${loadedImageObject.height} px`;
+                document.getElementById('metaSize').textContent = formatBytes(file.size);
+                
+                // Adjust default dynamic matching formats configurations
+                const formatSelect = document.getElementById('targetFormat');
+                if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+                    formatSelect.value = 'image/png';
+                } else {
+                    formatSelect.value = 'image/jpeg';
+                }
+
+                configPanel.style.display = 'block';
+            };
+            loadedImageObject.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // High performance client-side canvas encoder algorithm transformation routine
+    function convertAndDownload() {
+        if (!loadedImageObject || !globalImageFile) return;
+
+        const targetFormat = document.getElementById('targetFormat').value;
+        const canvas = document.createElement('canvas');
+        canvas.width = loadedImageObject.width;
+        canvas.height = loadedImageObject.height;
+        
+        const ctx = canvas.getContext('2d');
+
+        // Fill transparent backgrounds with solid white strictly for JPEG conversions mapping exceptions
+        if (targetFormat === 'image/jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Project source matrix coordinates cleanly onto target canvas viewport
+        ctx.drawImage(loadedImageObject, 0, 0);
+
+        // Export system dynamic link trigger download layer interface
+        const extensionMap = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/bmp': 'bmp' };
+        const baseName = globalImageFile.name.substring(0, globalImageFile.name.lastIndexOf('.')) || globalImageFile.name;
+        
+        const dataUrl = canvas.toDataURL(targetFormat, 0.92); // Kept at high fidelity structural 92% quality rendering
+        
+        const downloadLink = document.createElement('a');
+        downloadLink.download = `${baseName}_converted.${extensionMap[targetFormat]}`;
+        downloadLink.href = dataUrl;
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    // Binary byte formatting calculation serialization helper mapping metrics
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+</script>
+{% endblock %}

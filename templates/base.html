@@ -11,7 +11,9 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-N2W1QDP3V3');
+        gtag('config', 'G-N2W1QDP3V3', {
+        'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
         
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}" sizes="96x96" />

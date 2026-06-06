@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %}Digital Unit Converter - Multi-Metric Conversion Tool | DevOpsVaultX{% endblock %}
+
+{% block head %}
+<meta name="description" content="Free online digital unit converter. Convert data bytes (MB to GB), time (ms to sec), temperature (Celsius to Fahrenheit), length, and weight instantly with real-time calculations.">
+<meta name="keywords" content="unit converter, byte converter, ms to seconds, celsius to fahrenheit, metric imperial conversion, devops tools, devopsvaultx">
+<link rel="canonical" href="http://localhost:5000/digital-unit-converter/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Digital Unit Converter - Free Multi-Unit Utility">
+<meta property="og:description" content="Convert computing data, time periods, metrics, and temperatures smoothly in real-time.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:title" content="Digital Unit Converter - DevOpsVaultX">
+
+<style>
+    /* Scoping container to minimize layout shifts (CLS) */
+    .tool-container { max-width: 900px; margin: 2rem auto; padding: 2rem; border-radius: 16px; min-height: 500px; }
+    .tool-header { margin-bottom: 2rem; text-align: center; }
+    
+    .converter-badge {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        color: #10b981;
+    }
+
+    /* Category Navigation Tabs styling */
+    .category-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; }
+    .cat-btn { min-height: 40px; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 500; }
+    .cat-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    
+    /* Responsive Split grid layout for Inputs and Outputs */
+    .converter-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; align-items: center; }
+    @media (min-width: 768px) { .converter-grid { grid-template-columns: 1fr auto 1fr; } }
+
+    .panel-box {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--panel-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .styled-select {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--panel-border);
+        color: var(--text-main);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .styled-select:focus { outline: none; border-color: var(--primary); }
+
+    .styled-input { 
+        width: 100%; 
+        background: rgba(0, 0, 0, 0.4); 
+        border: 1px solid var(--panel-border); 
+        color: var(--text-main); 
+        padding: 1rem; 
+        border-radius: 8px; 
+        font-family: 'Courier New', Courier, monospace; 
+        font-size: 1.25rem; 
+        text-align: center;
+        transition: all 0.3s ease; 
+    }
+    .styled-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2); }
+    
+    .swap-icon-container { display: flex; justify-content: center; align-items: center; color: var(--text-muted); font-size: 1.5rem; }
+
+    /* FIX: High contrast text colors to pass accessibility audits */
+    .tool-desc { color: #e4e4e7 !important; }
+    .formula-box {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px dashed var(--panel-border);
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #e4e4e7;
+    }
+    .formula-text { font-family: monospace; color: #34d399; font-weight: 600; margin-top: 0.25rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 2rem;">
+    <a href="/" class="tab-btn" aria-label="Go back to home operations hub page" title="Back to Hub">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Hub
+    </a>
+</div>
+
+<section class="glass-panel tool-container" aria-labelledby="tool-title">
+    <div class="tool-header">
+        <div class="status-badge converter-badge">
+            <span class="status-dot" style="background: #10b981; box-shadow: 0 0 10px #10b981;"></span> 
+            <i class="fa-solid fa-right-left" aria-hidden="true"></i> Instant Convert
+        </div>
+        <h1 id="tool-title" class="hero-title" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">
+            Digital Unit <span class="text-gradient">Converter</span>
+        </h1>
+        <p class="tool-desc">Convert data storage sizes, execution time metrics, or physical units instantly in real-time.</p>
+    </div>
+
+    <div class="category-tabs" role="tablist" aria-label="Unit Categories">
+        <button class="tab-btn cat-btn active" role="tab" aria-selected="true" onclick="switchCategory('data')" id="tab-data"><i class="fa-solid fa-database"></i> Data Storage</button>
+        <button class="tab-btn cat-btn" role="tab" aria-selected="false" onclick="switchCategory('time')" id="tab-time"><i class="fa-solid fa-hourglass-half"></i> Time Periods</button>
+        <button class="tab-btn cat-btn" role="tab" aria-selected="false" onclick="switchCategory('length')" id="tab-length"><i class="fa-solid fa-ruler"></i> Length</button>
+        <button class="tab-btn cat-btn" role="tab" aria-selected="false" onclick="switchCategory('weight')" id="tab-weight"><i class="fa-solid fa-weight-hanging"></i> Weight</button>
+        <button class="tab-btn cat-btn" role="tab" aria-selected="false" onclick="switchCategory('temp')" id="tab-temp"><i class="fa-solid fa-temperature-half"></i> Temperature</button>
+    </div>
+
+    <div class="converter-grid" role="region" aria-label="Metric calculation environment blocks">
+        
+        <div class="panel-box">
+            <select id="unitFrom" class="styled-select" onchange="performCalculation()" aria-label="Source unit selection dropdown"></select>
+            <input type="number" id="valFrom" class="styled-input" value="1" oninput="performCalculation()" aria-label="Source conversion input value">
+        </div>
+
+        <div class="swap-icon-container">
+            <i class="fa-solid fa-right-left" style="cursor: pointer;" onclick="swapUnits()" title="Swap selected unit components mapping" aria-label="Swap units"></i>
+        </div>
+
+        <div class="panel-box">
+            <select id="unitTo" class="styled-select" onchange="performCalculation()" aria-label="Target unit selection dropdown"></select>
+            <input type="text" id="valTo" class="styled-input" readonly placeholder="Output Result" aria-label="Resulting converted output value">
+        </div>
+    </div>
+
+    <div class="formula-box">
+        <div style="text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 0.25rem; color: #a1a1aa;">Conversion Rule Formula Logic</div>
+        <div id="formulaDisplay" class="formula-text">1 MB = 1024 KB</div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Configuration definition Matrix schema database structure elements
+    const unitDatabase = {
+        data: {
+            label: "Data Storage",
+            units: { B: 1, KB: 1024, MB: 1048576, GB: 1073741824, TB: 1099511627776 },
+            display: { B: "Bytes (B)", KB: "Kilobytes (KB)", MB: "Megabytes (MB)", GB: "Gigabytes (GB)", TB: "Terabytes (TB)" },
+            defaults: ["MB", "GB"]
+        },
+        time: {
+            label: "Time Periods",
+            units: { ms: 1, sec: 1000, min: 60000, hour: 3600000, day: 86400000 },
+            display: { ms: "Milliseconds (ms)", sec: "Seconds (sec)", min: "Minutes (min)", hour: "Hours (hour)", day: "Days (day)" },
+            defaults: ["ms", "sec"]
+        },
+        length: {
+            label: "Length Metric",
+            units: { mm: 0.001, cm: 0.01, meter: 1, km: 1000, inch: 0.0254, feet: 0.3048, yard: 0.9144, mile: 1609.344 },
+            display: { mm: "Millimeters (mm)", cm: "Centimeters (cm)", meter: "Meters (m)", km: "Kilometers (km)", inch: "Inches (in)", feet: "Feet (ft)", yard: "Yards (yd)", mile: "Miles (mi)" },
+            defaults: ["inch", "feet"]
+        },
+        weight: {
+            label: "Weight / Mass",
+            units: { mg: 0.001, gram: 1, kg: 1000, ounce: 28.349523125, pound: 453.59237 },
+            display: { mg: "Milligrams (mg)", gram: "Grams (g)", kg: "Kilograms (kg)", ounce: "Ounces (oz)", pound: "Pounds (lb)" },
+            defaults: ["kg", "pound"]
+        },
+        temp: {
+            label: "Temperature Strategy",
+            units: { C: "Celsius", F: "Fahrenheit", K: "Kelvin" },
+            display: { C: "Celsius (°C)", F: "Fahrenheit (°F)", K: "Kelvin (K)" },
+            defaults: ["C", "F"]
+        }
+    };
+
+    let activeCategory = 'data';
+
+    // Switch layout interface states cleanly
+    function switchCategory(category) {
+        activeCategory = category;
+        
+        // Toggle system tab elements visibility states and manage ARIA states dynamically
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        
+        const activeTab = document.getElementById(`tab-${category}`);
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
+
+        const selectFrom = document.getElementById('unitFrom');
+        const selectTo = document.getElementById('unitTo');
+        
+        selectFrom.innerHTML = '';
+        selectTo.innerHTML = '';
+
+        const data = unitDatabase[category];
+        
+        // Populate standard options configurations
+        Object.keys(data.units).forEach(key => {
+            const text = data.display[key];
+            selectFrom.add(new Option(text, key));
+            selectTo.add(new Option(text, key));
+        });
+
+        // Map safe baseline parameters
+        selectFrom.value = data.defaults[0];
+        selectTo.value = data.defaults[1];
+
+        document.getElementById('valFrom').value = 1;
+        performCalculation();
+    }
+
+    // High performance analytical system computation handler functions routine
+    function performCalculation() {
+        const fromUnit = document.getElementById('unitFrom').value;
+        const toUnit = document.getElementById('unitTo').value;
+        const inputValStr = document.getElementById('valFrom').value;
+        const outputEl = document.getElementById('valTo');
+        const formulaEl = document.getElementById('formulaDisplay');
+
+        if (inputValStr === "") {
+            outputEl.value = "";
+            return;
+        }
+
+        const inputVal = parseFloat(inputValStr);
+        let outputVal = 0;
+
+        // Custom specialized computation branch processing for Temperature attributes rules
+        if (activeCategory === 'temp') {
+            let baseCelsius = 0;
+            
+            // Map configuration state explicitly into Celsius standard reference framework values
+            if (fromUnit === 'C') baseCelsius = inputVal;
+            else if (fromUnit === 'F') baseCelsius = (inputVal - 32) * 5 / 9;
+            else if (fromUnit === 'K') baseCelsius = inputVal - 273.15;
+
+            // Route standard references into objective layout dimensions targets values
+            if (toUnit === 'C') outputVal = baseCelsius;
+            else if (toUnit === 'F') outputVal = (baseCelsius * 9 / 5) + 32;
+            else if (toUnit === 'K') outputVal = baseCelsius + 273.15;
+
+            formulaEl.textContent = `Temperature Mapping Calculations Route: [${fromUnit}] to [${toUnit}]`;
+        } else {
+            // General structural matrix multiplier baseline data storage calculation loops routines
+            const factors = unitDatabase[activeCategory].units;
+            const valueInBase = inputVal * factors[fromUnit];
+            outputVal = valueInBase / factors[toUnit];
+
+            // Build clear context tracking description summaries rules
+            const ratio = factors[fromUnit] / factors[toUnit];
+            formulaEl.textContent = `1 ${fromUnit} = ${ratio.countDigits() > 5 ? ratio.toFixed(5) : ratio} ${toUnit}`;
+        }
+
+        // Clean precision decimal format trimming attributes rules parameters execution
+        outputEl.value = Number(outputVal.toFixed(6)).toString();
+    }
+
+    // Swap parameters workflow states smoothly matching matrix orientation maps
+    function swapUnits() {
+        const fromEl = document.getElementById('unitFrom');
+        const toEl = document.getElementById('unitTo');
+        const temp = fromEl.value;
+        
+        fromEl.value = toEl.value;
+        toEl.value = temp;
+        
+        performCalculation();
+    }
+
+    // Number helper method to safely analyze decimal string constraints lengths cleanly
+    Number.prototype.countDigits = function () {
+        if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
+        return this.toString().split(".")[1].length || 0;
+    }
+
+    // Load initial layout elements structures cleanly upon initialization pipeline completed
+    window.addEventListener('DOMContentLoaded', () => {
+        switchCategory('data');
+    });
+</script>
+{% endblock %}

@@ -52,7 +52,7 @@
     },
     {
         "id": "ip-cidr-generator",
-        "category": "automations",
+        "category": "networking",
         "searchTags": "ip cidr subnet calculator generator network vpc azure masking routing subnetting infra",
         "badge": "🌐 Network Tools",
         "badgeBg": "rgba(14, 165, 233, 0.1)",
@@ -66,5 +66,39 @@
         "metricColor": "#38bdf8",
         "actionUrl": "/ip-cidr-generator/",
         "status": "active"
+    },
+    {
+    "id": "digital-converter",
+    "category": "utilities",
+    "searchTags": "unit converter metric imperial length weight temperature speed area volume byte data storage time ms sec minute hour inch feet meter km kg pound celsius fahrenheit",
+    "badge": "📏 Smart Converter",
+    "badgeBg": "rgba(16, 185, 129, 0.1)",
+    "badgeColor": "#10b981",
+    "badgeBorder": "rgba(16, 185, 129, 0.2)",
+    "duration": "⚡ Instant Convert",
+    "title": "Digital Unit Converter",
+    "desc": "Convert milliseconds to seconds, inches to feet, Celsius to Fahrenheit, MB to GB, and many more units instantly.",
+    "friendlyMetric": "Multi Unit Tool",
+    "metricIcon": "fa-solid fa-right-left",
+    "metricColor": "#34d399",
+    "actionUrl": "/digital-unit-converter/",
+    "status": "active"
+    },
+    {
+    "id": "image-converter",
+    "category": "img",
+    "searchTags": "image converter jpg png webp jpeg svg gif bmp avif heic image compressor resize crop optimize format converter online",
+    "badge": "🖼️ Image Tools",
+    "badgeBg": "rgba(168, 85, 247, 0.1)",
+    "badgeColor": "#a855f7",
+    "badgeBorder": "rgba(168, 85, 247, 0.2)",
+    "duration": "⚡ Fast Convert",
+    "title": "Image Format Converter",
+    "desc": "Convert JPG to PNG, PNG to JPG, WebP to JPEG, SVG to PNG, and optimize images instantly online.",
+    "friendlyMetric": "Media Optimizer",
+    "metricIcon": "fa-solid fa-image",
+    "metricColor": "#c084fc",
+    "actionUrl": "/image-converter/",
+    "status": "active"
     }
 ]
