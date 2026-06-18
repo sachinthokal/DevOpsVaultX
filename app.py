@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -23,7 +23,6 @@ def add_security_headers(response):
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 # Contact Page
 @app.route('/contact/')
